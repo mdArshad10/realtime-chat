@@ -50,4 +50,20 @@ const updateUserPhotoDetail = async (id, data) => {
   }
 };
 
-export { findUserByEmail, createUser, findUserById, updateUserPhotoDetail };
+const findAllUserExpectMe = async (id) => {
+  try {
+    const users = await User.find({ id: { $ne: id } }).select("-password");
+    return users;
+  } catch (error) {
+    console.log(error);
+    throw new ErrorHandler(error.message);
+  }
+};
+
+export {
+  findUserByEmail,
+  createUser,
+  findUserById,
+  updateUserPhotoDetail,
+  findAllUserExpectMe,
+};
