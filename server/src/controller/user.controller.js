@@ -5,7 +5,7 @@ import {
   createUser,
   updateUserPhotoDetail,
 } from "../services/user.services.js";
-import { ACCESS_TOKEN_SECRET } from "../constant.js";
+import { ACCESS_TOKEN_SECRET } from "../config/constant.js";
 import jwt from "jsonwebtoken";
 import { ErrorHandler } from "../utils/errorHandler.js";
 import { uploadImage, updateImage } from "../utils/cloudinary.js";
@@ -81,20 +81,20 @@ const logoutUser = AsyncHandler(async (req, res, next) => {
 });
 
 // @DESC: update the user detail
-// @METHOD: [PUT]
+// @METHOD: [PUT]   api/v1/users
 // @ACCESS: private
 const updateUserDetails = AsyncHandler(async (req, res, next) => {
   const user = req.user;
   const file = req.file;
-  if (!file && !req.file.path) {
+
+  if (!file && !req.file?.path) {
     return next(
       new ErrorHandler("please upload the image", StatusCodes.BAD_REQUEST)
     );
   }
 
   let data;
-  console.log(user);
-  
+
   if (!user.profilePic?.url || !user.profilePic?.public_id) {
     data = await uploadImage(file.path);
   } else {
