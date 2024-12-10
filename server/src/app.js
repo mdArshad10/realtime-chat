@@ -7,7 +7,6 @@ import apiRoutes from "./routes/index.js";
 import { errorMiddleware } from "./middleware/error.js";
 import { CORS_ORIGIN,NODE_ENV } from "./config/constant.js";
 import path from "node:path";
-import second from '../../frontend/dist'
 
 // const CORS_ORIGIN = "http://localhost:5173";
 
