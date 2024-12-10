@@ -43,14 +43,12 @@ const MessageInput = () => {
         formData.append("attachment", attachment);
       }
       const message = text.trim();
-      console.log(message);
 
       formData.append("text", message);
       await sendMessage(formData);
       setText("");
       setImagePreview(null);
     } catch (err) {
-      console.log(err);
       toast.error("Failed to send message", err);
     }
   };

@@ -18,7 +18,7 @@ export const useChatStore = create((set, get) => ({
       toast.success("get all users");
       set({ users: response.data?.users });
     } catch (err) {
-      console.log(err);
+      
       toast.error(err.response.data.messages);
     } finally {
       set({ isUserLoading: false });
@@ -31,7 +31,6 @@ export const useChatStore = create((set, get) => ({
 
       set({ messages: response.data?.messages });
     } catch (err) {
-      console.log(err);
       toast.error(err.response.data.messages);
     } finally {
       set({ isMessageLoading: false });
@@ -51,15 +50,9 @@ export const useChatStore = create((set, get) => ({
         }
       );
 
-      console.log("response");
-      console.log(response.data);
-
-      console.log("already exist messages");
-      console.log(messages);
-
       set({ messages: [...messages, response.data.message] });
     } catch (err) {
-      console.log(err);
+      
       toast.error(err.response.data.message);
     }
   },
@@ -71,11 +64,7 @@ export const useChatStore = create((set, get) => ({
     const socket = useAuthStore.getState().socket;
 
     socket.on("newMessage", (newMessage) => {
-      console.log("the old messages");
-      console.log(get().messages);
-      console.log("the new message is ");
-      console.log(newMessage);
-
+      
       if (newMessage.senderId !== selectedUser._id) return;
       set({ messages: [...get().messages, newMessage] });
     });

@@ -29,7 +29,7 @@ const ChatContainer = () => {
     unsubscribeFromMessage,
   ]);
 
-  console.log(`the message sending loading is ${isMessageLoading}`);
+  
 
   useEffect(() => {
     if (messageEndRef.current && messages)
