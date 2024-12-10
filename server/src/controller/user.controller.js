@@ -128,4 +128,20 @@ const userDetail = AsyncHandler(async (req, res, next) => {
   });
 });
 
-export { registerUser, loginUser, logoutUser, userDetail, updateUserDetails };
+const test = AsyncHandler(async (req, res, next) => {
+  const { fullName, email, password } = req.body;
+  const user = { fullName, email, password };
+  res.status(StatusCodes.OK).json({
+    message: "this is for testing",
+    user,
+  });
+});
+
+export {
+  registerUser,
+  loginUser,
+  logoutUser,
+  userDetail,
+  updateUserDetails,
+  test,
+};

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Navbar from "./components/Navbar";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
@@ -19,21 +19,34 @@ const App = () => {
     checkAuth();
   }, [checkAuth]);
 
-
   if (!authUser && isCheckingAuth) {
     <div className="flex items-center justify-center h-screen">
       <Loader className="size-10 animate-spin" />
     </div>;
   }
+
   return (
     <div data-theme={theme}>
       <Navbar />
       <Routes>
-        <Route index path="/" element={<HomePage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route
+          index
+          path="/"
+          element={authUser ? <HomePage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/signup"
+          element={!authUser ? <SignUpPage /> : <Navigate to="/" />}
+        />
+        <Route
+          path="/login"
+          element={!authUser ? <LoginPage /> : <Navigate to="/" />}
+        />
         <Route path="/settings" element={<SettingPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route
+          path="/profile"
+          element={authUser ? <ProfilePage /> : <Navigate to={"/login"} />}
+        />
       </Routes>
 
       <Toaster />

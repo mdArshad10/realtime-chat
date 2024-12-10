@@ -52,7 +52,7 @@ const updateUserPhotoDetail = async (id, data) => {
 
 const findAllUserExpectMe = async (id) => {
   try {
-    const users = await User.find({ id: { $ne: id } }).select("-password");
+    const users = await User.find({ _id: { $ne: id } }).select("-password");
     return users;
   } catch (error) {
     console.log(error);

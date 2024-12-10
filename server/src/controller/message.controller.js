@@ -4,8 +4,9 @@ import { AsyncHandler } from "../middleware/asyncHandler.js";
 import { findAllUserExpectMe } from "../services/user.services.js";
 import { uploadImage } from "../utils/cloudinary.js";
 import { createMessage, findMessage } from "../services/message.services.js";
+import { getReceiverSocketId, io } from "../server.js";
 
-// @DESC: register the user
+// @DESC: register the user ✅
 // @METHOD: [GET]   /api/v1/messages/users
 // @ACCESS: private
 const getSideUsers = AsyncHandler(async (req, res, next) => {
@@ -16,7 +17,7 @@ const getSideUsers = AsyncHandler(async (req, res, next) => {
   });
 });
 
-// @DESC: get messages
+// @DESC: get messages ✅
 // @METHOD: [GET]   /api/v1/messages/:receiverId
 // @ACCESS: private
 const getMessages = AsyncHandler(async (req, res, next) => {
@@ -30,7 +31,7 @@ const getMessages = AsyncHandler(async (req, res, next) => {
 });
 
 // @DESC: send the message
-// @METHOD: [GET]   /api/v1/messages/:messageId(receiverId)
+// @METHOD: [GET]   /api/v1/messages/send/:messageId(receiverId)
 // @ACCESS: private
 const sendMessage = AsyncHandler(async (req, res, next) => {
   const { text } = req.body;
@@ -42,6 +43,13 @@ const sendMessage = AsyncHandler(async (req, res, next) => {
     image = await uploadImage(file.path);
   }
   const message = await createMessage({ senderId, text, receiverId, image });
+  
+  // realtime functionality goes here=>socket.id
+  const receiverSocketId = getReceiverSocketId(message.receiverId);
+
+  if (receiverSocketId) {
+    io.to(receiverSocketId).emit("newMessage", message);
+  }
 
   res.status(StatusCodes.OK).json({
     message,

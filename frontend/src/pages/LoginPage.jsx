@@ -4,13 +4,13 @@ import toast from "react-hot-toast";
 import {
   Eye,
   EyeOff,
-  Link,
   Loader2,
   Lock,
   Mail,
   MessageSquare,
 } from "lucide-react";
 import AuthImagePattern from "../components/AuthImagePattern";
+import { Link } from "react-router-dom";
 
 const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
